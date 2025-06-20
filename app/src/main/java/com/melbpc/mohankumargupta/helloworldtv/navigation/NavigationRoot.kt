@@ -8,6 +8,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.tv.material3.Text
+import com.melbpc.mohankumargupta.helloworldtv.onboarding.SelectDayScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -18,7 +19,7 @@ private data object Settings: NavKey
 
 @Composable
 fun NavigationRoot(
-    modifier: Modifier = Modifier
+
 ) {
     val backStack = rememberNavBackStack(Home)
     NavDisplay(
@@ -26,7 +27,7 @@ fun NavigationRoot(
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
           entry<Home> {
-              Text("home")
+              SelectDayScreen()
           }
           entry<Settings> {
               Text("settings")
