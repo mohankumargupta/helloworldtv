@@ -42,10 +42,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 //    )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HelloWorldTVTheme {
-        Greeting("your mama preview")
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    HelloWorldTVTheme {
+//        Greeting("your mama preview")
+//    }
+//}
