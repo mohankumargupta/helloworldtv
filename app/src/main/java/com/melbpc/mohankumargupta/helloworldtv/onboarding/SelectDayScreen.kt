@@ -16,14 +16,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.createFontFamilyResolver
 import androidx.tv.material3.Text
 import androidx.tv.material3.WideButton
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 
 @Composable
-fun SelectDayScreen(modifier: Modifier = Modifier) {
+fun SelectDayScreen( setCollectionDay: (String) -> Unit, modifier: Modifier = Modifier) {
 
     val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     val blurb = """
@@ -66,7 +65,9 @@ fun SelectDayScreen(modifier: Modifier = Modifier) {
 
           ) {
               items(days) { day ->
-                  WideButton(onClick = {}) {
+                  WideButton(onClick = {
+                      setCollectionDay(day)
+                  }) {
                       Text(day)
                   }
               }
