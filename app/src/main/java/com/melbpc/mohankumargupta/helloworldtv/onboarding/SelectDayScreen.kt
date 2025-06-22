@@ -20,9 +20,10 @@ import androidx.tv.material3.Text
 import androidx.tv.material3.WideButton
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
+import com.melbpc.mohankumargupta.helloworldtv.MainViewModel
 
 @Composable
-fun SelectDayScreen( setCollectionDay: (String) -> Unit, modifier: Modifier = Modifier) {
+fun SelectDayScreen(viewModel: MainViewModel, nextScreen: ()-> Unit) {
 
     val days = listOf("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
     val blurb = """
@@ -34,11 +35,11 @@ fun SelectDayScreen( setCollectionDay: (String) -> Unit, modifier: Modifier = Mo
     """.trimIndent()
 
     LazyRow (
-        modifier = modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
       item {
         LazyColumn(
-            modifier = modifier
+            modifier = Modifier
                 .fillParentMaxWidth(2f/3f)
                 .fillMaxHeight()
                 .wrapContentSize(Alignment.Center)
@@ -66,7 +67,8 @@ fun SelectDayScreen( setCollectionDay: (String) -> Unit, modifier: Modifier = Mo
           ) {
               items(days) { day ->
                   WideButton(onClick = {
-                      setCollectionDay(day)
+                      viewModel.setCollectionDay(day)
+                      nextScreen()
                   }) {
                       Text(day)
                   }

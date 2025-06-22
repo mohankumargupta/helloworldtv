@@ -8,6 +8,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.tv.material3.Text
 import com.melbpc.mohankumargupta.helloworldtv.MainViewModel
+import com.melbpc.mohankumargupta.helloworldtv.onboarding.LastCollectionBinScreen
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.SelectDayScreen
 import kotlinx.serialization.Serializable
 import java.io.Serial
@@ -30,13 +31,15 @@ fun NavigationRoot(viewModel: MainViewModel) {
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
           entry<Home> {
-              SelectDayScreen(setCollectionDay = { day->
-                  viewModel.setCollectionDay(day)
+              SelectDayScreen(viewModel, nextScreen = {
                   backStack.add(OnboardingLastCollectionType)
               })
           }
           entry<OnboardingLastCollectionType> {
-              Text("Collection Day: ${viewModel.collectionDay.value}")
+              LastCollectionBinScreen(viewModel, nextScreen = {
+                  backStack.add(OnboardingLastCollectionType)
+              })
+              //Text("Collection Day: ${viewModel.collectionDay.value}")
               //Text("Last collection type")
           }
           entry<Settings> {
