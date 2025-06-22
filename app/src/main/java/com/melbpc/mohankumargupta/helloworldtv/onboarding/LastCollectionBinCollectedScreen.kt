@@ -2,11 +2,11 @@ package com.melbpc.mohankumargupta.helloworldtv.onboarding
 
 import androidx.compose.foundation.layout.Arrangement
 //import androidx.compose.foundation.layout.FlowColumnScopeInstance.weight
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+//import androidx.compose.foundation.layout.Spacer
+//import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsEndWidth
+//import androidx.compose.foundation.layout.windowInsetsEndWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -19,11 +19,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.WideButton
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.temporal.TemporalAdjusters
+
+enum class GarbageType {
+    RECYCLING,
+    GARDEN,
+}
+
+private fun getLastRecyclingCollectionDate(garbage: GarbageType, collectionDay: String): LocalDate {
+    val today = LocalDate.now()
+    val collectionDayOfWeek = DayOfWeek.valueOf(collectionDay.uppercase())
+    val lastCollectionDayDate = today.with(TemporalAdjusters.previousOrSame(collectionDayOfWeek))
+    return when (garbage) {
+        // If recycling was the last thing collected, then the lastCollectionDayDate is the answer.
+        GarbageType.RECYCLING -> lastCollectionDayDate
+        // If garden waste was collected last, the recycling collection was the week before.
+        GarbageType.GARDEN -> lastCollectionDayDate.minusWeeks(1)
+    }
+}
 
 @Composable
 fun LastCollectionBinScreen(viewModel: MainViewModel, nextScreen: () -> Unit) {
+    val collectionDay = viewModel.collectionDay.collectAsState().value
     val instruction = """
-        Need to know what bin was collected last ${viewModel.collectionDay.collectAsState().value}.
+        Need to know what bin was collected last ${collectionDay}.
         
         
     """.trimIndent()
@@ -46,7 +67,9 @@ fun LastCollectionBinScreen(viewModel: MainViewModel, nextScreen: () -> Unit) {
                 item {
                     WideButton(
                         onClick = {
-
+                            val lastRecycling = getLastRecyclingCollectionDate(GarbageType.RECYCLING, collectionDay)
+                            viewModel.setRecyclingReferenceDate(lastRecycling)
+                            nextScreen()
                         }
                     ) {
                         Text("Recycling")
@@ -54,7 +77,11 @@ fun LastCollectionBinScreen(viewModel: MainViewModel, nextScreen: () -> Unit) {
                 }
                 item {
                     WideButton(
-                        onClick = {}
+                        onClick = {
+                            val lastRecycling = getLastRecyclingCollectionDate(GarbageType.GARDEN, collectionDay)
+                            viewModel.setRecyclingReferenceDate(lastRecycling)
+                            nextScreen()
+                        }
                     ) {
                         Text("Garden")
                     }

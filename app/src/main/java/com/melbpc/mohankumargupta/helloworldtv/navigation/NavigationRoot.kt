@@ -10,8 +10,8 @@ import androidx.tv.material3.Text
 import com.melbpc.mohankumargupta.helloworldtv.MainViewModel
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.LastCollectionBinScreen
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.SelectDayScreen
+import com.melbpc.mohankumargupta.helloworldtv.onboarding.RecyclingBinColorScreen
 import kotlinx.serialization.Serializable
-import java.io.Serial
 
 @Serializable
 private data object Home : NavKey
@@ -21,6 +21,12 @@ private data object OnboardingLastCollectionType : NavKey
 
 @Serializable
 private data object Settings: NavKey
+
+@Serializable
+private data object RecycleBinColorSelection : NavKey
+
+@Serializable
+private data object GardenBinColorSelection : NavKey
 
 @Composable
 fun NavigationRoot(viewModel: MainViewModel) {
@@ -37,11 +43,20 @@ fun NavigationRoot(viewModel: MainViewModel) {
           }
           entry<OnboardingLastCollectionType> {
               LastCollectionBinScreen(viewModel, nextScreen = {
-                  backStack.add(OnboardingLastCollectionType)
+                  backStack.add(RecycleBinColorSelection)
               })
               //Text("Collection Day: ${viewModel.collectionDay.value}")
               //Text("Last collection type")
           }
+
+          entry<RecycleBinColorSelection> {
+              RecyclingBinColorScreen(
+                  viewModel,
+                  nextScreen = {
+                      backStack.add(OnboardingLastCollectionType)
+                  })
+          }
+
           entry<Settings> {
               Text("settings")
           }
