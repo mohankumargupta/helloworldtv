@@ -119,14 +119,16 @@ fun ColorButton(color: Color, isSelected: Boolean, onClick: () -> Unit) {
         border = ButtonDefaults.border(
             Border(
                 BorderStroke(
-                    width = if (isSelected) 8.dp else 1.dp,
+                    width = if (isSelected) 5.dp else 2.dp,
                     color = if (isSelected) Color.White else Color.Black,
                 )
             )
         ),
         colors = ButtonDefaults.colors(
-            containerColor = color
+            containerColor = color,
+            focusedContainerColor = color
         ),
+        scale = ButtonDefaults.scale(focusedScale = 1.1f),
         contentPadding = PaddingValues(0.dp), // Remove default padding
 //        colors = ButtonDefaults.outlinedButtonColors(
 //            containerColor = color // The button's background is the color itself
