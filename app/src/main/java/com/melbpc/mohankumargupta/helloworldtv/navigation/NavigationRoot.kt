@@ -8,6 +8,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.tv.material3.Text
 import com.melbpc.mohankumargupta.helloworldtv.MainViewModel
+import com.melbpc.mohankumargupta.helloworldtv.onboarding.BinColorScreens
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.LastCollectionBinScreen
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.SelectDayScreen
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.RecyclingBinColorScreen
@@ -50,11 +51,12 @@ fun NavigationRoot(viewModel: MainViewModel) {
           }
 
           entry<RecycleBinColorSelection> {
-              RecyclingBinColorScreen(
-                  viewModel,
-                  nextScreen = {
-                      backStack.add(OnboardingLastCollectionType)
-                  })
+              BinColorScreens()
+//              RecyclingBinColorScreen(
+//                  viewModel,
+//                  nextScreen = {
+//                      backStack.add(OnboardingLastCollectionType)
+//                  })
           }
 
           entry<Settings> {
