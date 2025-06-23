@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
@@ -35,6 +36,10 @@ import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
+
+fun Color.toHexString(): String {
+    return String.format("#%08X", this.toArgb())
+}
 
 val colorSwatch = listOf(
     Color(0xFFD32F2F), // Red
@@ -78,7 +83,7 @@ fun ColorPicker(colors: List<Color>, selectedColor: Color, onColorSelected: (Col
     ) {
         item {
             Text(
-                text = "Select a Color",
+                text = "Select a Color(selected: ${selectedColor.toHexString()})",
                 color = Color.White,
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier.padding(bottom = 24.dp)
@@ -115,7 +120,7 @@ fun ColorButton(color: Color, isSelected: Boolean, onClick: () -> Unit) {
             Border(
                 BorderStroke(
                     width = if (isSelected) 8.dp else 1.dp,
-                    color = Color.White,
+                    color = if (isSelected) Color.White else Color.Black,
                 )
             )
         ),
@@ -135,5 +140,5 @@ fun ColorButton(color: Color, isSelected: Boolean, onClick: () -> Unit) {
 @Preview(showBackground = true, backgroundColor = 0xFF)
 @Composable
 fun BinColorScreensPreview() {
-    ColorPicker(colorSwatch, selectedColor = Color.White, onColorSelected = {})
+    BinColorScreens()
 }
