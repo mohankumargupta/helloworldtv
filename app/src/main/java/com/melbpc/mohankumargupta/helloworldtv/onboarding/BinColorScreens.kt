@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
@@ -109,21 +110,29 @@ fun ColorPicker(colors: List<Color>, selectedColor: Color, onColorSelected: (Col
 
 @Composable
 fun ColorButton(color: Color, isSelected: Boolean, onClick: () -> Unit) {
+    var focus by remember { mutableStateOf(isSelected) }
+
     OutlinedButton(
         onClick = onClick,
         modifier = Modifier
             .padding(end = 8.dp)
-            .size(50.dp), // Define the size of the button
+            .size(50.dp)
+            .onFocusChanged { focusState ->
+                focus = focusState.isFocused
+            }
+        , // Define the size of the button
+
         shape = ButtonDefaults.shape(CircleShape),
         // The border provides a nice outline, especially for the white button
         border = ButtonDefaults.border(
             Border(
                 BorderStroke(
-                    width = if (isSelected) 5.dp else 2.dp,
-                    color = if (isSelected) Color.White else Color.Black,
+                    width = if (isSelected) 3.dp else 1.dp,
+                    color = if (isSelected) Color.Blue else Color.Black,
                 )
             )
         ),
+        
         colors = ButtonDefaults.colors(
             containerColor = color,
             focusedContainerColor = color
