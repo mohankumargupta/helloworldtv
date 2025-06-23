@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 //import androidx.compose.foundation.layout.Row
 //import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+//import androidx.compose.foundation.layout.height
 //import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -89,7 +89,7 @@ fun ColorPicker(colors: List<Color>, selectedColor: Color, onColorSelected: (Col
                 text = "Select a Color(selected: ${selectedColor.toHexString()})",
                 color = Color.White,
                 style = MaterialTheme.typography.headlineLarge,
-                modifier = Modifier.padding(bottom = 24.dp)
+                modifier = Modifier.padding(bottom = 36.dp)
             )
         }
 
@@ -107,7 +107,7 @@ fun ColorPicker(colors: List<Color>, selectedColor: Color, onColorSelected: (Col
                 }
 
             }
-            Spacer(modifier = Modifier.padding(top = 12.dp))
+            Spacer(modifier = Modifier.padding(top = 24.dp))
         }
     }
 }
@@ -119,7 +119,7 @@ fun ColorButton(color: Color, isSelected: Boolean, onClick: () -> Unit) {
     OutlinedButton(
         onClick = onClick,
         modifier = Modifier
-            .padding(end = 12.dp)
+            .padding(horizontal = 12.dp)
             .size(50.dp)
             .onFocusChanged { focusState ->
                 focus = focusState.isFocused
