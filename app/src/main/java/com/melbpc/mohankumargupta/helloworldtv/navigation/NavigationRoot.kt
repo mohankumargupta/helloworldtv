@@ -1,6 +1,12 @@
 package com.melbpc.mohankumargupta.helloworldtv.navigation
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
@@ -22,7 +28,7 @@ private data object OnboardingHome : NavKey
 private data object OnboardingLastCollectionType : NavKey
 
 @Serializable
-private data object Home: NavKey
+private data object Home : NavKey
 
 @Serializable
 private data object RecycleBinColorSelection : NavKey
@@ -38,33 +44,52 @@ fun NavigationRoot(viewModel: MainViewModel) {
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
-          entry<OnboardingHome> {
-              SelectDayScreen(viewModel, nextScreen = {
-                  backStack.add(OnboardingLastCollectionType)
-              })
-          }
-          entry<OnboardingLastCollectionType> {
-              LastCollectionBinScreen(viewModel, nextScreen = {
-                  backStack.add(RecycleBinColorSelection)
-              })
-          }
+            entry<OnboardingHome> {
+                SelectDayScreen(viewModel, nextScreen = {
+                    backStack.add(OnboardingLastCollectionType)
+                })
+            }
+            entry<OnboardingLastCollectionType> {
+                LastCollectionBinScreen(viewModel, nextScreen = {
+                    backStack.add(RecycleBinColorSelection)
+                })
+            }
 
-          entry<RecycleBinColorSelection> {
-              BinColorScreens(BinType.RECYCLING,viewModel, nextScreen = {
-                  backStack.add(GardenBinColorSelection)
-              })
-          }
+            entry<RecycleBinColorSelection> {
+                BinColorScreens(BinType.RECYCLING, viewModel, nextScreen = {
+                    backStack.add(GardenBinColorSelection)
+                })
+            }
 
-          entry<GardenBinColorSelection> {
-              BinColorScreens(BinType.GARDEN,viewModel, nextScreen = {
-                  backStack.add(Home)
-              }
-              )
-          }
+            entry<GardenBinColorSelection> {
+                BinColorScreens(BinType.GARDEN, viewModel, nextScreen = {
+                    backStack.add(Home)
+                }
+                )
+            }
 
-          entry<Home> {
-              Text("Home Page")
-          }
+            entry<Home> {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    item {
+                        Text("Collection Day: ${viewModel.collectionDay.collectAsState().value}")
+                    }
+                    item {
+                        Text("Recycling Reference Date: ${viewModel.recyclingReferenceDate.collectAsState().value}")
+                    }
+
+                    item {
+                        Text("Recycling Bin Color: ${viewModel.recyclingBinColor.collectAsState().value}")
+                    }
+
+                    item {
+                        Text("Garden Bin Color: ${viewModel.gardenBinColor.collectAsState().value}")
+                    }
+                }
+            }
         }
     )
 }
