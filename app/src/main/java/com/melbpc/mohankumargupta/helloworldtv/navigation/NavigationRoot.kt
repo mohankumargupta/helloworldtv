@@ -14,6 +14,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.tv.material3.Text
 import com.melbpc.mohankumargupta.helloworldtv.BinType
+import com.melbpc.mohankumargupta.helloworldtv.HomeScreen
 import com.melbpc.mohankumargupta.helloworldtv.MainViewModel
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.BinColorScreens
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.LastCollectionBinScreen
@@ -69,27 +70,9 @@ fun NavigationRoot(viewModel: MainViewModel) {
             }
 
             entry<Home> {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    item {
-                        Text("Collection Day: ${viewModel.collectionDay.collectAsState().value}")
-                    }
-                    item {
-                        Text("Recycling Reference Date: ${viewModel.recyclingReferenceDate.collectAsState().value}")
-                    }
-
-                    item {
-                        Text("Recycling Bin Color: ${viewModel.recyclingBinColor.collectAsState().value}")
-                    }
-
-                    item {
-                        Text("Garden Bin Color: ${viewModel.gardenBinColor.collectAsState().value}")
-                    }
-                }
+                HomeScreen()
             }
+
         }
     )
 }
