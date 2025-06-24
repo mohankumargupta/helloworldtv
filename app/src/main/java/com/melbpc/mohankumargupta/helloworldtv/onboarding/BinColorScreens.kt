@@ -29,7 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+//import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
@@ -39,10 +39,12 @@ import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
+import com.melbpc.mohankumargupta.helloworldtv.BinType
+import com.melbpc.mohankumargupta.helloworldtv.MainViewModel
 
-fun Color.toHexString(): String {
-    return String.format("#%08X", this.toArgb())
-}
+//fun Color.toHexString(): String {
+//    return String.format("#%08X", this.toArgb())
+//}
 
 val colorSwatch = listOf(
     Color(0xFFD32F2F), // Red
@@ -56,28 +58,27 @@ val colorSwatch = listOf(
 )
 
 @Composable
-fun BinColorScreens() {
-
-
+fun BinColorScreens(bin: BinType, viewModel: MainViewModel, nextScreen: () -> Unit) {
     var selectedColor by remember { mutableStateOf(colorSwatch.first()) }
 
-
-    // The Color Picker Composable
     ColorPicker(
+        bin,
+        viewModel,
+        nextScreen,
         colors = colorSwatch,
         selectedColor = selectedColor,
-        onColorSelected = { color: Color ->
-            // Update the state when a new color is selected
-            selectedColor = color
-        }
+//        onColorSelected = { color: Color ->
+//            selectedColor = color
+//        }
     )
 }
 
 
 @Composable
-fun ColorPicker(colors: List<Color>, selectedColor: Color, onColorSelected: (Color) -> Unit) {
+fun ColorPicker(bin: BinType, viewModel: MainViewModel, nextScreen: () -> Unit, colors: List<Color>, selectedColor: Color) {
     // Split the list of 8 colors into two rows of 4
     val colorRows = colors.chunked(4)
+    val binName = if (bin == BinType.RECYCLING) "Recycling" else "Garden"
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -86,7 +87,7 @@ fun ColorPicker(colors: List<Color>, selectedColor: Color, onColorSelected: (Col
     ) {
         item {
             Text(
-                text = "Select a Color(selected: ${selectedColor.toHexString()})",
+                text = "Pick color for $binName Bin",
                 color = Color.White,
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier.padding(bottom = 36.dp)
@@ -101,7 +102,14 @@ fun ColorPicker(colors: List<Color>, selectedColor: Color, onColorSelected: (Col
                     ColorButton(
                         color = color,
                         isSelected = color == selectedColor,
-                        onClick = { onColorSelected(color) }
+                        onClick = {
+                            when (bin) {
+                                BinType.RECYCLING -> viewModel.setRecyclingBinColor(color)
+                                BinType.GARDEN -> viewModel.setGardenBinColor(color)
+                            }
+                            nextScreen()
+                            //onColorSelected(color)
+                        }
                     )
                     //Text(color.red.toString())
                 }
@@ -155,5 +163,5 @@ fun ColorButton(color: Color, isSelected: Boolean, onClick: () -> Unit) {
 @Preview(showBackground = true, backgroundColor = 0xFF)
 @Composable
 fun BinColorScreensPreview() {
-    BinColorScreens()
+    //BinColorScreens()
 }
