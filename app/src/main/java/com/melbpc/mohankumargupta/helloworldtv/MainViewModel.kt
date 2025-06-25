@@ -15,10 +15,10 @@ class MainViewModel(): ViewModel() {
     private val _recyclingReferenceDate = MutableStateFlow(LocalDate.MIN)
     val recyclingReferenceDate = _recyclingReferenceDate.asStateFlow()
 
-    private val _recyclingBinColor = MutableStateFlow(Color.Blue)
+    private val _recyclingBinColor = MutableStateFlow(ColorSwatch.Black)
     val recyclingBinColor = _recyclingBinColor.asStateFlow()
 
-    private val _gardenBinColor = MutableStateFlow(Color.Blue)
+    private val _gardenBinColor = MutableStateFlow(ColorSwatch.Black)
     val gardenBinColor = _gardenBinColor.asStateFlow()
 
     fun setCollectionDay(day: String)  {
@@ -29,11 +29,11 @@ class MainViewModel(): ViewModel() {
         _recyclingReferenceDate.value = date
     }
 
-    fun setRecyclingBinColor(color: Color) {
+    fun setRecyclingBinColor(color: ColorSwatch) {
         _recyclingBinColor.value = color
     }
 
-    fun setGardenBinColor(color: Color) {
+    fun setGardenBinColor(color: ColorSwatch) {
        _gardenBinColor.value = color
     }
 

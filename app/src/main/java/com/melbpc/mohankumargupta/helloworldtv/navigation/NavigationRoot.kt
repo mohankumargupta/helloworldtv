@@ -69,8 +69,8 @@ fun NavigationRoot(viewModel: MainViewModel) {
 
             entry<GardenBinColorSelection>(
                 metadata = NavDisplay.transitionSpec {
-                    slideInHorizontally(initialOffsetX = { - it }, animationSpec = tween(1000)) togetherWith
-                            slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(1000))
+                    slideInHorizontally(initialOffsetX = { - it  }, animationSpec = tween(1000)) togetherWith
+                            slideOutHorizontally(targetOffsetX = { it   }, animationSpec = tween(1000, delayMillis = 1000))
                 }
             ) {
                 BinColorScreens(BinType.GARDEN, viewModel, nextScreen = {

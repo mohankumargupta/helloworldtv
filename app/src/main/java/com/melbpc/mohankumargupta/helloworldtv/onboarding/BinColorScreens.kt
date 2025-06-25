@@ -40,32 +40,34 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Text
 import com.melbpc.mohankumargupta.helloworldtv.BinType
+import com.melbpc.mohankumargupta.helloworldtv.ColorSwatch
 import com.melbpc.mohankumargupta.helloworldtv.MainViewModel
+import kotlin.enums.EnumEntries
 
 //fun Color.toHexString(): String {
 //    return String.format("#%08X", this.toArgb())
 //}
 
-val colorSwatch = listOf(
-    Color(0x00000000), // Black
-    Color(0xFF1D6E2A), // Dark green
-    Color(0xFF5FCC6A), // Green
-    Color(0xFF8C8C8C), // Grey
-    Color(0xFFF90101), // Red
-    Color(0xFFFFE600), // Yellow
-    Color(0xFF00A3FF), // Blue
-    Color(0xFFB901F9), // Purple
-)
+//val colorSwatch = listOf(
+//    Color(0x00000000), // Black
+//    Color(0xFF1D6E2A), // Dark green
+//    Color(0xFF5FCC6A), // Green
+//    Color(0xFF8C8C8C), // Grey
+//    Color(0xFFF90101), // Red
+//    Color(0xFFFFE600), // Yellow
+//    Color(0xFF00A3FF), // Blue
+//    Color(0xFFB901F9), // Purple
+//)
 
 @Composable
 fun BinColorScreens(bin: BinType, viewModel: MainViewModel, nextScreen: () -> Unit) {
-    var selectedColor by remember { mutableStateOf(colorSwatch.first()) }
+    val selectedColor by remember { mutableStateOf(ColorSwatch.entries.first()) }
 
     ColorPicker(
         bin,
         viewModel,
         nextScreen,
-        colors = colorSwatch,
+        colors = ColorSwatch.entries,
         selectedColor = selectedColor,
 //        onColorSelected = { color: Color ->
 //            selectedColor = color
@@ -75,7 +77,7 @@ fun BinColorScreens(bin: BinType, viewModel: MainViewModel, nextScreen: () -> Un
 
 
 @Composable
-fun ColorPicker(bin: BinType, viewModel: MainViewModel, nextScreen: () -> Unit, colors: List<Color>, selectedColor: Color) {
+fun ColorPicker(bin: BinType, viewModel: MainViewModel, nextScreen: () -> Unit, colors: EnumEntries<ColorSwatch>, selectedColor: ColorSwatch) {
     // Split the list of 8 colors into two rows of 4
     val colorRows = colors.chunked(4)
     val binName = if (bin == BinType.RECYCLING) "Recycling" else "Garden"
@@ -100,7 +102,7 @@ fun ColorPicker(bin: BinType, viewModel: MainViewModel, nextScreen: () -> Unit, 
             ) {
                 items(rowColors) { color ->
                     ColorButton(
-                        color = color,
+                        color = color.color,
                         isSelected = color == selectedColor,
                         onClick = {
                             when (bin) {
