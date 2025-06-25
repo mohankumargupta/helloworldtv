@@ -1,11 +1,11 @@
 package com.melbpc.mohankumargupta.helloworldtv.navigation
 
-import androidx.compose.animation.ExitTransition
+//import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
+//import androidx.compose.animation.slideInVertically
+//import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.NavKey
@@ -81,7 +81,7 @@ fun NavigationRoot(viewModel: MainViewModel) {
             }
 
             entry<Home> {
-                HomeScreen()
+                HomeScreen(viewModel)
             }
 
         }
