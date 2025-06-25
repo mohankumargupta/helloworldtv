@@ -47,14 +47,14 @@ import com.melbpc.mohankumargupta.helloworldtv.MainViewModel
 //}
 
 val colorSwatch = listOf(
-    Color(0xFFD32F2F), // Red
-    Color(0xFFF57C00), // Orange
-    Color(0xFFFBC02D), // Yellow
-    Color(0xFF388E3C), // Green
-    Color(0xFF1976D2), // Blue
-    Color(0xFF7B1FA2), // Purple
-    Color(0xFF303030), // Dark Gray
-    Color(0x00000000)  // Black
+    Color(0x00000000), // Black
+    Color(0xFF1D6E2A), // Dark green
+    Color(0xFF5FCC6A), // Green
+    Color(0xFF8C8C8C), // Grey
+    Color(0xFFF90101), // Red
+    Color(0xFFFFE600), // Yellow
+    Color(0xFF00A3FF), // Blue
+    Color(0xFFB901F9), // Purple
 )
 
 @Composable

@@ -10,7 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.tv.material3.Text
+
+//import androidx.tv.material3.Text
 
 @Composable
 fun HomeScreen() {
@@ -20,10 +21,12 @@ fun HomeScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-        Box{
-       Text("boosdasdasdas")
-       Image(painter = painterResource(id = R.drawable.garden_bin_yellow), contentDescription = null)
-        }
+            Box {
+                Image(
+                    painter = painterResource(id = R.drawable.garden_bin_yellow),
+                    contentDescription = null
+                )
+            }
         }
     }
 }
