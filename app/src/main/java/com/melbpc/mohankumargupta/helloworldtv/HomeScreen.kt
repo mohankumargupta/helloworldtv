@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
 
 //import androidx.tv.material3.Text
@@ -36,8 +37,12 @@ fun HomeScreen(viewModel: MainViewModel) {
 //    Log.d("mohan", collectionDay.uppercase())
 //    Log.d("mohan", isCollectionDayToday.toString())
     if (recyclingReferenceDate?.isBefore(today) == true) {
-        var nextCollectionDate: LocalDate = if (isCollectionDayToday) today else findNextDayOfWeek(DayOfWeek.valueOf(collectionDay.uppercase()))
-        Log.d("mohan", nextCollectionDate.toString())
+        val nextCollectionDate: LocalDate = if (isCollectionDayToday) today else findNextDayOfWeek(DayOfWeek.valueOf(collectionDay.uppercase()))
+        //Log.d("mohan", nextCollectionDate.toString())
+        val weeks = ChronoUnit.WEEKS.between(recyclingReferenceDate, nextCollectionDate)
+        //Log.d("mohan", weeks.toString())
+        val isRecycling = weeks % 2 == 0L
+        Log.d("mohan", isRecycling.toString())
     }
 
 
