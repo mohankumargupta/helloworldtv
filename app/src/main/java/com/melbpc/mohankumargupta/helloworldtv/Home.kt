@@ -22,8 +22,12 @@ fun HomeScreen() {
     ) {
         item {
             Box {
+//                Image(
+//                    painter = painterResource(id = R.drawable.garden_bin_yellow),
+//                    contentDescription = null
+//                )
                 Image(
-                    painter = painterResource(id = R.drawable.garden_bin_yellow),
+                    painter = painterResource(id = R.drawable.garden_bin_red),
                     contentDescription = null
                 )
             }
