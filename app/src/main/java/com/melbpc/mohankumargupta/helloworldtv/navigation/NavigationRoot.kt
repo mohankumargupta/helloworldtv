@@ -1,18 +1,17 @@
 package com.melbpc.mohankumargupta.helloworldtv.navigation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import androidx.tv.material3.Text
 import com.melbpc.mohankumargupta.helloworldtv.BinType
 import com.melbpc.mohankumargupta.helloworldtv.HomeScreen
 import com.melbpc.mohankumargupta.helloworldtv.MainViewModel
@@ -56,13 +55,24 @@ fun NavigationRoot(viewModel: MainViewModel) {
                 })
             }
 
-            entry<RecycleBinColorSelection> {
+            entry<RecycleBinColorSelection> //            (
+//                metadata = NavDisplay.transitionSpec {
+//                    slideInVertically(initialOffsetY = { it }, animationSpec = tween(1000)) togetherWith ExitTransition.None
+//                }
+//
+//            )
+            {
                 BinColorScreens(BinType.RECYCLING, viewModel, nextScreen = {
                     backStack.add(GardenBinColorSelection)
                 })
             }
 
-            entry<GardenBinColorSelection> {
+            entry<GardenBinColorSelection>(
+                metadata = NavDisplay.transitionSpec {
+                    slideInHorizontally(initialOffsetX = { - it }, animationSpec = tween(1000)) togetherWith
+                            slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(1000))
+                }
+            ) {
                 BinColorScreens(BinType.GARDEN, viewModel, nextScreen = {
                     backStack.add(Home)
                 }

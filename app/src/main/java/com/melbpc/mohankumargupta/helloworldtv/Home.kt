@@ -27,7 +27,7 @@ fun HomeScreen() {
 //                    contentDescription = null
 //                )
                 Image(
-                    painter = painterResource(id = R.drawable.garden_bin_red),
+                    painter = painterResource(id = R.drawable.garden_bin_purple),
                     contentDescription = null
                 )
             }
