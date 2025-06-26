@@ -30,6 +30,16 @@ fun HomeScreen(viewModel: MainViewModel) {
     val recyclingBinColor = viewModel.recyclingBinColor.collectAsState().value
     val gardenBinColor = viewModel.gardenBinColor.collectAsState().value
     val recyclingReferenceDate = viewModel.recyclingReferenceDate.collectAsState().value
+    val lidColors = mapOf(
+        Pair(BinType.GARDEN, ColorSwatch.Black) to R.drawable.garden_bin_black,
+        Pair(BinType.GARDEN, ColorSwatch.DarkGreen) to R.drawable.garden_bin_darkgreen,
+        Pair(BinType.GARDEN, ColorSwatch.Green) to R.drawable.garden_bin_green,
+        Pair(BinType.GARDEN, ColorSwatch.Grey) to R.drawable.garden_bin_grey,
+        Pair(BinType.GARDEN, ColorSwatch.Red) to R.drawable.garden_bin_red,
+        Pair(BinType.GARDEN, ColorSwatch.Yellow) to R.drawable.garden_bin_yellow,
+        Pair(BinType.GARDEN, ColorSwatch.Blue) to R.drawable.garden_bin_blue,
+        Pair(BinType.GARDEN, ColorSwatch.Purple) to R.drawable.garden_bin_purple,
+    )
 
     val today = LocalDate.now()
     val isCollectionDayToday = collectionDay.uppercase() == today.dayOfWeek.name
@@ -37,32 +47,42 @@ fun HomeScreen(viewModel: MainViewModel) {
 //    Log.d("mohan", collectionDay.uppercase())
 //    Log.d("mohan", isCollectionDayToday.toString())
     if (recyclingReferenceDate?.isBefore(today) == true) {
-        val nextCollectionDate: LocalDate = if (isCollectionDayToday) today else findNextDayOfWeek(DayOfWeek.valueOf(collectionDay.uppercase()))
+        val nextCollectionDate: LocalDate =
+            if (isCollectionDayToday) today else findNextDayOfWeek(DayOfWeek.valueOf(collectionDay.uppercase()))
         //Log.d("mohan", nextCollectionDate.toString())
         val weeks = ChronoUnit.WEEKS.between(recyclingReferenceDate, nextCollectionDate)
         //Log.d("mohan", weeks.toString())
-        val isRecycling = weeks % 2 == 0L
-        Log.d("mohan", isRecycling.toString())
-    }
+        //val isRecycling = weeks % 2 == 0L
 
+        //Log.d("mohan", isRecycling.toString())
+        val nextBin = if (weeks % 2 == 0L) BinType.RECYCLING else BinType.GARDEN
+        //Log.d("mohan", nextBin.toString())
 
+        val lidColor = when (nextBin) {
+            BinType.RECYCLING -> {
+                lidColors[Pair(BinType.RECYCLING, recyclingBinColor)]
+            }
 
+            BinType.GARDEN -> {
+                lidColors[Pair(BinType.GARDEN, gardenBinColor)]
+            }
+        }
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        item {
-            Box {
-//                Image(
-//                    painter = painterResource(id = R.drawable.garden_bin_yellow),
-//                    contentDescription = null
-//                )
-                Image(
-                    painter = painterResource(id = R.drawable.garden_bin_black),
-                    contentDescription = null
-                )
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            item {
+                Box {
+                    if (lidColor != null) {
+                        Image(
+                            painter = painterResource(id = lidColor),
+                            contentDescription = null
+                        )
+
+                    }
+                }
             }
         }
     }

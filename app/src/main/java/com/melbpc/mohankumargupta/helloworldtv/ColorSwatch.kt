@@ -12,3 +12,4 @@ enum class ColorSwatch(val color: Color) {
     Blue(Color(0xFF00A3FF)),
     Purple(Color(0xFFB901F9))
 }
+
