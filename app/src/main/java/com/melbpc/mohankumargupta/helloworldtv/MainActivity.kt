@@ -12,6 +12,7 @@ import com.melbpc.mohankumargupta.helloworldtv.ui.theme.HelloWorldTVTheme
 
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
+    //private val settings: Settings = Settings(this)
 
     //@OptIn(ExperimentalTvMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {

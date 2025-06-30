@@ -39,6 +39,15 @@ fun HomeScreen(viewModel: MainViewModel) {
         Pair(BinType.GARDEN, ColorSwatch.Yellow) to R.drawable.garden_bin_yellow,
         Pair(BinType.GARDEN, ColorSwatch.Blue) to R.drawable.garden_bin_blue,
         Pair(BinType.GARDEN, ColorSwatch.Purple) to R.drawable.garden_bin_purple,
+
+        Pair(BinType.RECYCLING, ColorSwatch.Black) to R.drawable.recycling_bin_black,
+        Pair(BinType.RECYCLING, ColorSwatch.DarkGreen) to R.drawable.recycling_bin_darkgreen,
+        Pair(BinType.RECYCLING, ColorSwatch.Green) to R.drawable.recycling_bin_green,
+        Pair(BinType.RECYCLING, ColorSwatch.Grey) to R.drawable.recycling_bin_grey,
+        Pair(BinType.RECYCLING, ColorSwatch.Red) to R.drawable.recycling_bin_red,
+        Pair(BinType.RECYCLING, ColorSwatch.Yellow) to R.drawable.recycling_bin_yellow,
+        Pair(BinType.RECYCLING, ColorSwatch.Blue) to R.drawable.recycling_bin_blue,
+        Pair(BinType.RECYCLING, ColorSwatch.Purple) to R.drawable.recycling_bin_purple,
     )
 
     val today = LocalDate.now()
