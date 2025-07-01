@@ -55,7 +55,7 @@ fun HomeScreen(viewModel: MainViewModel) {
 //    Log.d("mohan", today.dayOfWeek.name)
 //    Log.d("mohan", collectionDay.uppercase())
 //    Log.d("mohan", isCollectionDayToday.toString())
-    if (recyclingReferenceDate?.isBefore(today) == true) {
+    if (recyclingReferenceDate?.isBefore(today) == true || recyclingReferenceDate?.isBefore(today) == false) {
         val nextCollectionDate: LocalDate =
             if (isCollectionDayToday) today else findNextDayOfWeek(DayOfWeek.valueOf(collectionDay.uppercase()))
         //Log.d("mohan", nextCollectionDate.toString())

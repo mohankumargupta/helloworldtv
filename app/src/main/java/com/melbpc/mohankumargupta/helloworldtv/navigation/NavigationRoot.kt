@@ -25,6 +25,7 @@ import com.melbpc.mohankumargupta.helloworldtv.onboarding.SelectDayScreen
 //import com.melbpc.mohankumargupta.helloworldtv.navigation.dataStore
 //import com.melbpc.mohankumargupta.helloworldtv.onboarding.RecyclingBinColorScreen
 import kotlinx.serialization.Serializable
+
 //import kotlin.coroutines.jvm.internal.CompletedContinuation.context
 
 //private val android.content.Context.dataStore by preferencesDataStore("settings")
@@ -59,7 +60,7 @@ fun NavigationRoot(viewModel: MainViewModel = viewModel()) {
 
 //    val backStack = if (!settings.previousSettings()) rememberNavBackStack(OnboardingHome)
 //                    else rememberNavBackStack(Home)
-   val backStack = rememberNavBackStack(backStackNavKey)
+    val backStack = rememberNavBackStack(backStackNavKey)
 
     NavDisplay(
         backStack = backStack,
@@ -90,11 +91,19 @@ fun NavigationRoot(viewModel: MainViewModel = viewModel()) {
 
             entry<GardenBinColorSelection>(
                 metadata = NavDisplay.transitionSpec {
-                    slideInHorizontally(initialOffsetX = { - it  }, animationSpec = tween(1000)) togetherWith fadeOut()
-                            //slideOutHorizontally(targetOffsetX = { it   }, animationSpec = tween(1000, delayMillis = 1000))
+                    slideInHorizontally(
+                        initialOffsetX = { -it },
+                        animationSpec = tween(1000)
+                    ) togetherWith fadeOut()
+                    //slideOutHorizontally(targetOffsetX = { it   }, animationSpec = tween(1000, delayMillis = 1000))
                 }
             ) {
                 BinColorScreens(BinType.GARDEN, viewModel, nextScreen = {
+                    viewModel.saveSettings(
+                        viewModel.recyclingReferenceDate.value,
+                        viewModel.gardenBinColor.value.name,
+                        viewModel.recyclingBinColor.value.name
+                    )
                     backStack.add(Home)
                 }
                 )

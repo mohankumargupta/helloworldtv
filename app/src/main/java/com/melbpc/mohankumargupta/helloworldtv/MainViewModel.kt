@@ -1,6 +1,7 @@
 package com.melbpc.mohankumargupta.helloworldtv
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 //import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -52,6 +53,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         // The coroutine will be automatically cancelled when the ViewModel is cleared.
         viewModelScope.launch {
             try {
+                Log.d("MainViewModel", "Checking onboarding status...")
                 // Call your suspend function from the Settings class
                 if (settings.hasAnyStoredPreferences()) {
                   _isOnboardingRequired.value = false
@@ -79,6 +81,17 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun setGardenBinColor(color: ColorSwatch) {
        _gardenBinColor.value = color
+    }
+
+    fun saveSettings(recyclingReferenceDate: LocalDate, gardenBinColor: String, recyclingBinColor: String) {
+        viewModelScope.launch {
+          settings.saveSettings(recyclingReferenceDate, gardenBinColor, recyclingBinColor)
+          completeOnboarding()
+        }
+    }
+
+    private fun completeOnboarding() {
+        _isOnboardingRequired.value = false
     }
 
 }
