@@ -53,7 +53,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         // The coroutine will be automatically cancelled when the ViewModel is cleared.
         viewModelScope.launch {
             try {
-                Log.d("MainViewModel", "Checking onboarding status...")
+                Log.d("mohan", "Checking onboarding status...")
                 // Call your suspend function from the Settings class
                 if (settings.hasAnyStoredPreferences()) {
                   _isOnboardingRequired.value = false
@@ -92,6 +92,13 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     private fun completeOnboarding() {
         _isOnboardingRequired.value = false
+    }
+
+    fun hasAnyStoredPreferences() {
+        viewModelScope.launch {
+            val isPreviousSettings = settings.hasAnyStoredPreferences()
+            _isOnboardingRequired.value = !isPreviousSettings
+        }
     }
 
 }

@@ -4,12 +4,17 @@ package com.melbpc.mohankumargupta.helloworldtv.navigation
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
-import androidx.lifecycle.viewmodel.compose.viewModel
 //import androidx.compose.animation.slideInVertically
 //import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
@@ -46,22 +51,42 @@ private data object RecycleBinColorSelection : NavKey
 private data object GardenBinColorSelection : NavKey
 
 @Composable
-fun NavigationRoot(viewModel: MainViewModel = viewModel()) {
+fun NavigationRoot(viewModel: MainViewModel) {
     val onboardingRequired = viewModel.isOnboardingRequired.collectAsState()
     var backStackNavKey: NavKey = OnboardingHome
 
     when (onboardingRequired.value) {
-        null -> {}
-        true -> {}
-        false -> {
-            backStackNavKey = Home
+        null -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+                // You could also add Text("Loading app...")
+            }
         }
+
+        else -> {
+            val key = if (onboardingRequired.value!!) OnboardingHome else Home
+            val backStack = rememberNavBackStack(key)
+            Navigation(backStack, viewModel)
+        }
+//        true -> {}
+//        false -> {
+//            backStackNavKey = Home
+//        }
     }
 
 //    val backStack = if (!settings.previousSettings()) rememberNavBackStack(OnboardingHome)
 //                    else rememberNavBackStack(Home)
-    val backStack = rememberNavBackStack(backStackNavKey)
 
+}
+
+@Composable
+private fun Navigation(
+    backStack: NavBackStack,
+    viewModel: MainViewModel
+) {
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
