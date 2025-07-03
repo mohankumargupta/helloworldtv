@@ -147,10 +147,16 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
 
 
-    fun getBinDrawable(bin: BinType): Int? {
+    suspend fun getBinDrawable(bin: BinType): Int? {
         return when(bin) {
-            BinType.RECYCLING -> Bin.Recycling.getDrawable(ColorSwatch.Blue)
-            BinType.GARDEN -> Bin.Garden.getDrawable(ColorSwatch.Purple)
+            BinType.RECYCLING -> {
+                val recyclingBinColor = settings.getRecyclingBinColorString()
+                recyclingBinColor?.let { Bin.Recycling.getDrawable(ColorSwatch.valueOf(it)) }
+            }
+            BinType.GARDEN -> {
+                val gardenBinColor = settings.getGardenBinColorString()
+                gardenBinColor?.let { Bin.Garden.getDrawable(ColorSwatch.valueOf(it)) }
+            }
         }
     }
 
