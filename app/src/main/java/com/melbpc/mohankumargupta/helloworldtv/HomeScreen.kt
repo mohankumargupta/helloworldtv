@@ -1,6 +1,7 @@
 package com.melbpc.mohankumargupta.helloworldtv
 
 import android.util.Log
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,12 +18,14 @@ import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
 
-//import androidx.tv.material3.Text
+@Composable
+fun HomeScreen(viewModel: MainViewModel) {
 
-fun findNextDayOfWeek(targetDay: DayOfWeek, fromDate: LocalDate = LocalDate.now()): LocalDate {
-    return fromDate.with(TemporalAdjusters.next(targetDay))
 }
 
+
+
+/*
 @Composable
 fun HomeScreen(viewModel: MainViewModel) {
 
@@ -96,9 +99,32 @@ fun HomeScreen(viewModel: MainViewModel) {
         }
     }
 }
+*/
+
+@Composable
+fun HomeComposable(
+    @DrawableRes bin: Int?,
+    modifier: Modifier = Modifier) {
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        if (bin != null) {
+            item {
+                Box {
+                    Image(
+                        painter = painterResource(bin),
+                        contentDescription = "Collection Bin" // Provide meaningful content description
+                    )
+                }
+            }
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview(modifier: Modifier = Modifier) {
-    //HomeScreen(viewModel)
+fun HomePreview(modifier: Modifier = Modifier) {
+    HomeComposable(R.drawable.garden_bin_red, modifier)
 }

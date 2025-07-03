@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.temporal.TemporalAdjusters
 
 //val Context.dataStore: DataStore<Preferences> by preferencesDataStore("settings")
 
@@ -28,21 +30,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _gardenBinColor = MutableStateFlow(ColorSwatch.Black)
     val gardenBinColor = _gardenBinColor.asStateFlow()
 
-
-    //boarding status (true/false/null) ---
-    // Initialize with 'null' to represent the undecided/loading state.
     private val _isOnboardingRequired = MutableStateFlow<Boolean?>(null)
     val isOnboardingRequired: StateFlow<Boolean?> = _isOnboardingRequired.asStateFlow()
 
-//    // Sealed class to represent the different states for initial navigation
-//    sealed class InitialNavTarget {
-//        data object Loading : InitialNavTarget() // State while checking settings
-//        data class Target(val key: NavKey) : InitialNavTarget() // State when target is determined
-//    }
-//
-//    private val _initialNavTarget = MutableStateFlow<InitialNavTarget>(InitialNavTarget.Loading)
-//    val initialNavTarget: StateFlow<InitialNavTarget> = _initialNavTarget.asStateFlow()
-//
 
     init {
         checkOnboardingRequired()
@@ -83,7 +73,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
        _gardenBinColor.value = color
     }
 
-    fun saveSettings(recyclingReferenceDate: LocalDate, gardenBinColor: String, recyclingBinColor: String) {
+    fun saveSettings(recyclingReferenceDate: LocalDate, gardenBinColor: ColorSwatch, recyclingBinColor: ColorSwatch) {
         viewModelScope.launch {
           settings.saveSettings(recyclingReferenceDate, gardenBinColor, recyclingBinColor)
           completeOnboarding()
@@ -94,11 +84,42 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         _isOnboardingRequired.value = false
     }
 
-    fun hasAnyStoredPreferences() {
-        viewModelScope.launch {
-            val isPreviousSettings = settings.hasAnyStoredPreferences()
-            _isOnboardingRequired.value = !isPreviousSettings
-        }
+    private fun findNextDayOfWeek(targetDay: DayOfWeek, fromDate: LocalDate = LocalDate.now()): LocalDate {
+        return fromDate.with(TemporalAdjusters.next(targetDay))
     }
+
+    sealed class Bin(val availableColors: Map<ColorSwatch, Int>) {
+        object Recycling : Bin(
+            mapOf(
+                ColorSwatch.Black to R.drawable.recycling_bin_black,
+                ColorSwatch.Blue to R.drawable.recycling_bin_blue,
+                ColorSwatch.DarkGreen to R.drawable.recycling_bin_darkgreen,
+                ColorSwatch.Green to R.drawable.recycling_bin_green,
+                ColorSwatch.Grey to R.drawable.recycling_bin_grey,
+                ColorSwatch.Purple to R.drawable.recycling_bin_purple,
+                ColorSwatch.Red to R.drawable.recycling_bin_red,
+                ColorSwatch.Yellow to R.drawable.recycling_bin_yellow,
+            )
+        )
+
+        object Garden : Bin(
+            mapOf(
+                ColorSwatch.Black to R.drawable.garden_bin_black,
+                ColorSwatch.Blue to R.drawable.garden_bin_blue,
+                ColorSwatch.DarkGreen to R.drawable.garden_bin_darkgreen,
+                ColorSwatch.Green to R.drawable.garden_bin_green,
+                ColorSwatch.Grey to R.drawable.garden_bin_grey,
+                ColorSwatch.Purple to R.drawable.garden_bin_purple,
+                ColorSwatch.Red to R.drawable.garden_bin_red,
+                ColorSwatch.Yellow to R.drawable.garden_bin_yellow,
+            )
+        )
+
+        fun getDrawable(color: ColorSwatch): Int? = availableColors[color]
+
+    }
+
+
+
 
 }

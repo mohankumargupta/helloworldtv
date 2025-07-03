@@ -23,17 +23,10 @@ import androidx.navigation3.ui.NavDisplay
 import com.melbpc.mohankumargupta.helloworldtv.BinType
 import com.melbpc.mohankumargupta.helloworldtv.HomeScreen
 import com.melbpc.mohankumargupta.helloworldtv.MainViewModel
-//import com.melbpc.mohankumargupta.helloworldtv.Settings
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.BinColorScreens
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.LastCollectionBinScreen
 import com.melbpc.mohankumargupta.helloworldtv.onboarding.SelectDayScreen
-//import com.melbpc.mohankumargupta.helloworldtv.navigation.dataStore
-//import com.melbpc.mohankumargupta.helloworldtv.onboarding.RecyclingBinColorScreen
 import kotlinx.serialization.Serializable
-
-//import kotlin.coroutines.jvm.internal.CompletedContinuation.context
-
-//private val android.content.Context.dataStore by preferencesDataStore("settings")
 
 @Serializable
 private data object OnboardingHome : NavKey
@@ -62,24 +55,14 @@ fun NavigationRoot(viewModel: MainViewModel) {
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator()
-                // You could also add Text("Loading app...")
             }
         }
-
         else -> {
             val key = if (onboardingRequired.value!!) OnboardingHome else Home
             val backStack = rememberNavBackStack(key)
             Navigation(backStack, viewModel)
         }
-//        true -> {}
-//        false -> {
-//            backStackNavKey = Home
-//        }
     }
-
-//    val backStack = if (!settings.previousSettings()) rememberNavBackStack(OnboardingHome)
-//                    else rememberNavBackStack(Home)
-
 }
 
 @Composable
