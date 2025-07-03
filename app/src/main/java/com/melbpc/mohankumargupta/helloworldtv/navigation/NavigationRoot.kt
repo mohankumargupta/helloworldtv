@@ -46,7 +46,7 @@ private data object GardenBinColorSelection : NavKey
 @Composable
 fun NavigationRoot(viewModel: MainViewModel) {
     val onboardingRequired = viewModel.isOnboardingRequired.collectAsState()
-    var backStackNavKey: NavKey = OnboardingHome
+    //var backStackNavKey: NavKey = OnboardingHome
 
     when (onboardingRequired.value) {
         null -> {
