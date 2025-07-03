@@ -2,15 +2,18 @@ package com.melbpc.mohankumargupta.helloworldtv
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.AndroidViewModel
 //import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
 
 //val Context.dataStore: DataStore<Preferences> by preferencesDataStore("settings")
@@ -119,7 +122,25 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     }
 
+    suspend fun nextBin() {
+        viewModelScope.launch {
+            val today = LocalDate.now()
+            val refDate = settings.getRecyclingReferenceDate()
+            if (refDate != null) {
+                val collectionDay = refDate.dayOfWeek
+                val isCollectionDayToday = collectionDay == today.dayOfWeek
+                val nextCollectionDate = if (isCollectionDayToday) today else findNextDayOfWeek(collectionDay)
+                val weeks = ChronoUnit.WEEKS.between(_recyclingReferenceDate.value, nextCollectionDate)
+                val nextBinType = if (weeks % 2 == 0L) BinType.RECYCLING else BinType.GARDEN
 
+                val gardenBinColor = settings.getGardenBinColorString()
+                val recyclingBinColor = settings.getRecyclingBinColorString()
+            }
+
+        }
+
+//        return Bin.Garden.getDrawable(ColorSwatch.DarkGreen)
+    }
 
 
 }
