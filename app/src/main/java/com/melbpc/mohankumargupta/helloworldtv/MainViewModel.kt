@@ -37,7 +37,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val isOnboardingRequired: StateFlow<Boolean?> = _isOnboardingRequired.asStateFlow()
 
     private val _nextBin = MutableStateFlow<Int?>(null)
-    //val nextBin = _nextBin.asStateFlow()
+    val nextBin = _nextBin.asStateFlow()
 
     init {
         checkOnboardingRequired()
