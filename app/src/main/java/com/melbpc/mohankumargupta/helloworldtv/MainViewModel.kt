@@ -132,7 +132,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                 val collectionDay = refDate.dayOfWeek
                 val isCollectionDayToday = collectionDay == today.dayOfWeek
                 val nextCollectionDate = if (isCollectionDayToday) today else findNextDayOfWeek(collectionDay)
-                val weeks = ChronoUnit.WEEKS.between(_recyclingReferenceDate.value, nextCollectionDate)
+                val weeks = ChronoUnit.WEEKS.between(refDate, nextCollectionDate)
                 val nextBinType = if (weeks % 2 == 0L) BinType.RECYCLING else BinType.GARDEN
 
                 val drawable = getBinDrawable(nextBinType)
