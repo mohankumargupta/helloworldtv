@@ -36,6 +36,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _isOnboardingRequired = MutableStateFlow<Boolean?>(null)
     val isOnboardingRequired: StateFlow<Boolean?> = _isOnboardingRequired.asStateFlow()
 
+    private val _nextBin = MutableStateFlow<Int?>(null)
+    //val nextBin = _nextBin.asStateFlow()
 
     init {
         checkOnboardingRequired()
@@ -122,7 +124,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     }
 
-    suspend fun nextBin() {
+    suspend fun whichBin() {
         viewModelScope.launch {
             val today = LocalDate.now()
             val refDate = settings.getRecyclingReferenceDate()
@@ -133,8 +135,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                 val weeks = ChronoUnit.WEEKS.between(_recyclingReferenceDate.value, nextCollectionDate)
                 val nextBinType = if (weeks % 2 == 0L) BinType.RECYCLING else BinType.GARDEN
 
-                val gardenBinColor = settings.getGardenBinColorString()
-                val recyclingBinColor = settings.getRecyclingBinColorString()
+                val drawable = getBinDrawable(nextBinType)
+                if (drawable != null) {
+                    _nextBin.value = drawable
+                }
             }
 
         }
@@ -142,5 +146,12 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 //        return Bin.Garden.getDrawable(ColorSwatch.DarkGreen)
     }
 
+
+    fun getBinDrawable(bin: BinType): Int? {
+        return when(bin) {
+            BinType.RECYCLING -> Bin.Recycling.getDrawable(ColorSwatch.Blue)
+            BinType.GARDEN -> Bin.Garden.getDrawable(ColorSwatch.Purple)
+        }
+    }
 
 }
