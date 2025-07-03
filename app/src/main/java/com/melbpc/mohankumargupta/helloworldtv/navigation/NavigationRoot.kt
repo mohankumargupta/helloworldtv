@@ -109,8 +109,8 @@ private fun Navigation(
                 BinColorScreens(BinType.GARDEN, viewModel, nextScreen = {
                     viewModel.saveSettings(
                         viewModel.recyclingReferenceDate.value,
-                        viewModel.gardenBinColor.value.name,
-                        viewModel.recyclingBinColor.value.name
+                        viewModel.gardenBinColor.value,
+                        viewModel.recyclingBinColor.value
                     )
                     backStack.add(Home)
                 }
