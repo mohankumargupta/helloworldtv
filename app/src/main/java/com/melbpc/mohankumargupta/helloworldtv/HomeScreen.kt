@@ -10,10 +10,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -21,9 +23,9 @@ import java.time.temporal.TemporalAdjusters
 
 @Composable
 fun HomeScreen(viewModel: MainViewModel) {
-    val nextBinDrawable = viewModel.nextBin.collectAsState().value
+    val nextBinDrawable by viewModel.nextBin.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(nextBinDrawable) {
         viewModel.whichBin()
     }
 

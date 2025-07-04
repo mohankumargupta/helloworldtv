@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.kotlinx.serialization.core)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.androidx.datastore.preferences)
 }
