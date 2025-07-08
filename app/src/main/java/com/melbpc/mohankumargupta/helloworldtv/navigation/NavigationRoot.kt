@@ -2,8 +2,8 @@ package com.melbpc.mohankumargupta.helloworldtv.navigation
 
 //import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 //import androidx.compose.animation.slideInVertically
 //import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
@@ -100,10 +100,12 @@ private fun Navigation(
             entry<GardenBinColorSelection>(
                 metadata = NavDisplay.transitionSpec {
                     slideInHorizontally(
-                        initialOffsetX = { -it },
-                        animationSpec = tween(1000)
-                    ) togetherWith fadeOut()
-                    //slideOutHorizontally(targetOffsetX = { it   }, animationSpec = tween(1000, delayMillis = 1000))
+                        initialOffsetX = { it },
+                        animationSpec = tween(500)
+                    ) togetherWith slideOutHorizontally(
+                        targetOffsetX = { -it },
+                        animationSpec = tween(500)
+                    )
                 }
             ) {
                 BinColorScreens(BinType.GARDEN, viewModel, nextScreen = {
@@ -118,7 +120,10 @@ private fun Navigation(
             }
 
             entry<Home> {
-                HomeScreen(viewModel)
+                HomeScreen(viewModel, nextScreen = {
+                    backStack.clear()
+                    backStack.add(OnboardingHome)
+                })
             }
 
         }
