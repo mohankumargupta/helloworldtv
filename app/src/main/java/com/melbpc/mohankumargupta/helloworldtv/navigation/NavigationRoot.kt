@@ -121,8 +121,9 @@ private fun Navigation(
 
             entry<Home> {
                 HomeScreen(viewModel, nextScreen = {
-                    backStack.clear()
+                    //backStack.clear()
                     backStack.add(OnboardingHome)
+
                 })
             }
 
