@@ -81,7 +81,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun saveSettings(recyclingReferenceDate: LocalDate, gardenBinColor: ColorSwatch, recyclingBinColor: ColorSwatch) {
         viewModelScope.launch {
           settings.saveSettings(recyclingReferenceDate, gardenBinColor, recyclingBinColor)
-          completeOnboarding()
+            whichBin()
+            completeOnboarding()
         }
     }
 
