@@ -42,19 +42,26 @@ private fun getLastRecyclingCollectionDate(garbage: GarbageType, collectionDay: 
 
 @Composable
 fun LastCollectionBinScreen(viewModel: MainViewModel, nextScreen: () -> Unit) {
+    val today = LocalDate.now()
+    val currentDayOfWeek = today.dayOfWeek.name
+
+
     val collectionDay = viewModel.collectionDay.collectAsState().value
-    val instruction = """
+    val isCollectionDay = collectionDay.uppercase() == currentDayOfWeek
+    val instructionLastWeek = """
         Need to know what bin was collected last ${collectionDay}.
-        
-        
     """.trimIndent()
+    val instructionToday = """
+        Need to know what bin was collected today
+    """.trimIndent()
+    val instruction = if (isCollectionDay) instructionToday else instructionLastWeek
 
     LazyColumn(modifier = Modifier
         .fillMaxSize()
         .wrapContentSize(Alignment.Center)
     ) {
         item {
-            Text("Last Collection Bin", modifier = Modifier
+            Text("Which Collection Bin?", modifier = Modifier
                 .padding(vertical = 16.dp,
                     )
                 , style = MaterialTheme.typography.headlineLarge
